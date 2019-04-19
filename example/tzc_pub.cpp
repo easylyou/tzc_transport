@@ -10,6 +10,7 @@
 #define SHM_SIZE   (100 * 1024 * 1024)
 
 int main(int argc, char ** argv) {
+
   ros::init(argc, argv, "tzc_pub", ros::init_options::AnonymousName);
   ros::NodeHandle n;
   tzc_transport::Topic t(n);
@@ -26,9 +27,10 @@ int main(int argc, char ** argv) {
     img.data.resize(IMG_WIDTH * IMG_HEIGHT * IMG_STEP);
 
     if (pub.allocate(img)) {
-      snprintf((char *)img.data.data(), IMG_WIDTH, "image # %5d ...", count);
+//      snprintf((char *)img.data.data(), IMG_WIDTH, "image # %5d ...", count);
+      snprintf((char *)img.data.data(), IMG_WIDTH, "%5d", count);
 
-      ROS_INFO("info: [%s]", (char *)img.data.data());
+//      ROS_INFO("info: [%s]", (char *)img.data.data());
       img.header.stamp = ros::Time::now();
       pub.publish(img);
     }
@@ -36,6 +38,7 @@ int main(int argc, char ** argv) {
     ros::spinOnce();
     loop_rate.sleep();
     count++;
+    if(count == 1000) break;
   }
   return 0;
 }

@@ -6,9 +6,10 @@
 #define HZ         (30)
 
 void imageCallback(const tzc_transport::sensor_msgs::Image::ConstPtr & msg) {
-  ROS_INFO("Image (%dx%dx%d) recieved: [%s] delay: [%5.5fms]",
-      msg->width, msg->height, msg->step, (char *)msg->data.data(),
-      (ros::Time::now() - msg->header.stamp).toSec() * 1000);
+//  ROS_INFO("Image (%dx%dx%d) recieved: [%s] delay: [%5.5fms]",
+//      msg->width, msg->height, msg->step, (char *)msg->data.data(),
+//      (ros::Time::now() - msg->header.stamp).toSec() * 1000);
+    ROS_INFO("%s delay [%5.5fms]", (char*)msg->data.data(), (ros::Time::now() - msg->header.stamp).toSec() * 1000);
 }
 
 int main(int argc, char ** argv) {

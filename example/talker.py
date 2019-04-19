@@ -7,19 +7,19 @@ def talker():
     rate = tzc.Rate(30)
     count = 0
     while not tzc.is_shutdown():
-        img = tzc.image()  
+        img = tzc.image()
         img.width  = 1920
         img.height = 1080
         img.step = 3
         img.data_resize(1920 * 1080 * 3)
         if pub.allocate(img):
-            img.data = 'image # %5d ...'% count
-            
+            img.data = '%5d' % count
             img.header_stamp = tzc.get_rostime()
-            tzc.loginfo('info :[%s]'%img.data)
+#             tzc.loginfo('info :[%s]'%img.data)
             pub.publish(img)
         tzc.spinOnce()
         rate.sleep()
         count += 1
+        if count == 1000 : break
 if __name__ == '__main__':
     talker()
