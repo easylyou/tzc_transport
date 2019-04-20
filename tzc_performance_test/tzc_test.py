@@ -42,24 +42,32 @@ if __name__ == '__main__':
     
     filedir = 'output_test_data'
     data_size = ('4kb', 1024, 1, 4)
-    listener_num = 4
+    listener_num = 1
     filename = 'tzc_py_%s_%d_listener_no_' % (data_size[0], listener_num)
     
     
     if not os.path.exists(filedir):
         os.makedirs(filedir) 
-        
+    
+    ps = []
     for i in range(listener_num) :
-        multiprocessing.Process(target=listener, args=(filedir, filename + str(i))).start()
+        p = multiprocessing.Process(target=listener, args=(filedir, filename + str(i)))
+        ps.append(p)
+        p.start()
     
-    time.sleep(1)
+    time.sleep(2)
     
-    talker = multiprocessing.Process(target=talker, args=(data_size[1], data_size[2], data_size[3]))
-    talker.start()
+    t = multiprocessing.Process(target=talker, args=(data_size[1], data_size[2], data_size[3]))
+    t.start()
     
     try:
-        time.sleep(600)
+        t.join()
     except KeyboardInterrupt:
         print 'interrupt'
+        pass
+    
+    time.sleep(1)
+    for p in ps:
+        os.kill(p.pid , signal.SIGINT)
     
     print 'main end'
