@@ -13,9 +13,10 @@ def talker():
         img.step = 3
         img.data_resize(1920 * 1080 * 3)
         if pub.allocate(img):
-            img.data = '%5d' % count
+            img.data = 'image # %5d ...' % count
+            
+            tzc.loginfo('info :[%s]'% img.data)
             img.header_stamp = tzc.get_rostime()
-#             tzc.loginfo('info :[%s]'%img.data)
             pub.publish(img)
         tzc.spinOnce()
         rate.sleep()

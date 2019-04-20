@@ -27,10 +27,9 @@ int main(int argc, char ** argv) {
     img.data.resize(IMG_WIDTH * IMG_HEIGHT * IMG_STEP);
 
     if (pub.allocate(img)) {
-//      snprintf((char *)img.data.data(), IMG_WIDTH, "image # %5d ...", count);
-      snprintf((char *)img.data.data(), IMG_WIDTH, "%5d", count);
+      snprintf((char *)img.data.data(), IMG_WIDTH, "image # %5d ...", count);
 
-//      ROS_INFO("info: [%s]", (char *)img.data.data());
+      ROS_INFO("info: [%s]", (char *)img.data.data());
       img.header.stamp = ros::Time::now();
       pub.publish(img);
     }
